@@ -1,6 +1,4 @@
-# 🌍 Streamify
-
-![ShipWheelIcon](https://lucide.dev/icons/ship-wheel)
+# ☸ Streamify
 
 **Streamify** is a real-time language exchange platform built for people who want to learn new languages and help others with their native language proficiency. It enables users to chat and video call with language partners, complete onboarding profiles, and personalize their experience with dynamic themes.
 
@@ -21,11 +19,11 @@
 
 | Layer            | Technologies & Tools                                                                 | Version Used       |
 |------------------|--------------------------------------------------------------------------------------|--------------------|
-| **Frontend**     | React · Vite · Zustand · React Query · Lucide Icons                                  | React 18+          |
-| **Styling**      | TailwindCSS · DaisyUI                                                                | TailwindCSS 3.4.17<br>DaisyUI 4.12.14 |
-| **Backend**      | Express · MongoDB · Mongoose · JWT · Stream SDK                                      | Express 4+         |
-| **Routing**      | React Router                                                                         | v6+                |
-| **State Mgmt**   | Zustand · React Query                                                                | Zustand 4+         |
+| **Frontend**     | React · Vite · Zustand · React Query · Lucide Icons                                  | React (latest)          |
+| **Styling**      | TailwindCSS · DaisyUI                                                                | TailwindCSS `3.4.17`<br>DaisyUI `4.12.14` |
+| **Backend**      | Express · MongoDB · Mongoose · JWT · Stream SDK                                      | Express (latest)         |
+| **Routing**      | React Router                                                                         | latest                |
+| **State Mgmt**   | Zustand · React Query                                                                | Zustand (latest)         |
 
 ---
 
@@ -82,6 +80,7 @@ streamify/
 
 ### 🧩 1. Frontend Setup
 
+
 ```
 cd frontend
 
@@ -98,7 +97,9 @@ npm install -D daisyui@4.12.14
 npm install react-router-dom react-hot-toast @tanstack/react-query axios lucide-react zustand stream-chat stream-chat-react @stream-io/video-react-sdk
 ```
 
+
 ### 🛠️ 2. Backend Setup
+
 
 ```
 cd backend
@@ -108,7 +109,9 @@ npm init -y
 npm install
 ```
 
+
 ### 🔐 3. Generate Stream API Key
+
 
 ```
 openssl rand -base64 32
@@ -131,11 +134,15 @@ NODE_ENV=production
 
 ✅ `STREAM_API_KEY` and `VITE_STREAM_API_KEY` share the same value generated from `openssl rand -base64 32`.
 
+
 ### 🖼️ 4. Branding Asset
+
 
 Use [i.png](https://storyset.com/illustration/video-call/bro) with primary color set to `#1FB854` for consistent branding.
 
+
 ## ✅ Status
+
 
 Streamify is production-ready, scalable, and built with modern best practices. It’s a platform where language learners and native speakers connect, converse, and grow together.
 
