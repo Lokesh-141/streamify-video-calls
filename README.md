@@ -119,6 +119,7 @@ npm install
 openssl rand -base64 32
 ```
 Paste the output into both `.env` files:
+
 `frontend/.env`
 ```ENV
 VITE_STREAM_API_KEY=your_generated_stream_key
