@@ -1,4 +1,4 @@
-# 🛞 Streamify
+# 🌍 Streamify
 
 **Streamify** is a real-time language exchange platform built for people who want to learn new languages and help others with their native language proficiency. It enables users to chat and video call with language partners, complete onboarding profiles, and personalize their experience with dynamic themes.
 
