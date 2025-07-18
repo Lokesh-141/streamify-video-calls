@@ -104,8 +104,10 @@ npm install react-router-dom react-hot-toast @tanstack/react-query axios lucide-
 ```
 cd backend
 
+# Initialize Node project
 npm init -y
 
+# Copy `package.json` from the project repo before installing dependencies
 npm install
 ```
 
