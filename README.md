@@ -44,34 +44,73 @@
 > Streamify is tightly coupled with specific versions of TailwindCSS and DaisyUI.  
 > Using newer versions may break theme rendering or layout.
 
+## 🏗️ System Architecture
+
+Streamify uses a decoupled architecture where the local backend handles authentication and Metadata, while the specialized **GetStream.io** PaaS handles the high-concurrency RTC (Real-Time Communication) and Messaging traffic.
+
+```mermaid
+graph TD
+    UserA([User A - React]) <-->|Abuse/Auth| Backend[Express Backend]
+    UserB([User B - React]) <-->|Abuse/Auth| Backend
+    Backend <--> DB[(MongoDB Atlas)]
+    
+    subgraph "Real-Time Infrastructure (PaaS)"
+        UserA <-->|WebRTC/WSS| Stream[GetStream.io SDK]
+        UserB <-->|WebRTC/WSS| Stream
+    end
 ```
-streamify/
-├── frontend/
-│   ├── public/                  # Static assets (favicon, illustrations)
-│   ├── src/
-│   │   ├── components/          # Reusable UI elements (Navbar, Sidebar, Cards, Loaders)
-│   │   ├── pages/               # Views (Home, Chat, Call, Login, Signup, Onboarding)
-│   │   ├── hooks/               # Custom React hooks for auth and mutations
-│   │   ├── store/               # Zustand store for theme persistence
-│   │   ├── lib/                 # Axios instance, API functions, utilities
-│   │   ├── constants/           # Language and theme definitions
-│   │   ├── App.jsx              # Routing logic with protected routes
-│   │   └── main.jsx             # App bootstrap with providers
-│   ├── index.css                # Global styles and Stream overrides
-│   ├── tailwind.config.js       # Tailwind + DaisyUI theme configuration
-│   ├── vite.config.js           # Vite bundler configuration
-│   └── .env                     # Frontend environment variables
+
+---
+
+## 🔄 RTC Signaling & Call Workflow
+
+The following sequence illustrates how a secure video session is initiated:
+
+```mermaid
+sequenceDiagram
+    participant User as User (Frontend)
+    participant Server as Express (Backend)
+    participant Stream as GetStream API
+    participant Peer as Language Partner
+
+    User->>Server: POST /auth/login
+    Server-->>User: Set JWT Cookie
+    
+    User->>Server: GET /chat/token (Request Stream Access)
+    Server->>Server: Verify Auth Middleware
+    Server->>Stream: Generate Access Token (Secret Key)
+    Stream-->>Server: return dev_token
+    Server-->>User: return stream_token
+    
+    User->>Stream: Connect with token
+    User->>Stream: Create Call (call_id)
+    Stream->>Peer: Notify: Incoming Call
+    
+    Peer->>Stream: Join Call
+    Note over User,Peer: WebRTC Peer-to-Peer Established
+```
+
+---
+
+## 📂 Project Structure Map
+
+```
+📁 streamify
+├── 📁 frontend              # React + Vite Client
+│   ├── 📁 src
+│   │   ├── 📁 components    # Logic-less UI & Layouts
+│   │   ├── 📁 pages         # Routing Entry Points (Chat, Call, Home)
+│   │   ├── 📁 store         # Zustand (App State & Theme)
+│   │   ├── 📁 hooks         # React Query & Custom Logic
+│   │   └── 📄 App.jsx       # Auth Guard & Route Mapping
+│   └── 📄 tailwind.config.js # Custom DaisyUI Themes
 │
-└── backend/
-    ├── src/
-    │   ├── controllers/         # Business logic for auth, chat, user, onboarding
-    │   ├── models/              # Mongoose schemas for User and FriendRequest
-    │   ├── middleware/          # JWT-based route protection
-    │   ├── lib/                 # MongoDB connection and Stream SDK integration
-    │   ├── routes/              # Express route definitions
-    │   └── server.js            # Backend entry point and app initialization
-    ├── .env                     # Backend environment variables
-    └── package.json             # Backend dependencies and scripts
+└── 📁 backend               # Express.js Server
+    ├── 📁 src
+    │   ├── 📁 controllers   # API Logic (Auth, Friend Requests)
+    │   ├── 📁 models        # MongoDB / Mongoose Schemas
+    │   ├── 📁 middleware    # JWT & Session Validation
+    │   └── 📄 server.js     # Entry & Socket Initialization
 ```
 
 ---
